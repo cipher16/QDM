@@ -15,15 +15,14 @@ class Download : public QObject,QTreeWidgetItem
     QUrl url;   //url to download
     QString filename;
     QString filepath;
-    int size;   //size of the file
-    int range;  //range downloaded
+    float size;   //size of the file
+    float range;  //range downloaded
     QNetworkAccessManager *nam;
     QNetworkReply *reply;
 
 private slots:
     void write();
     void save();
-    void updateProgress(qint64 received, qint64 total);
 public:
     static QList<Download*> downloadList;
 
@@ -32,8 +31,8 @@ public:
     void stopDownload();
     QNetworkReply * getReply();
 
-    int getSize() const;
-    int getRange() const;
+    float getSize() const;
+    float getRange() const;
     int getProgress();
     void setFile(const QString &file);
     void setPath(const QString &path);

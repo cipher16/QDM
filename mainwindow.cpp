@@ -121,6 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     //upActionTool = topBar->addAction(QIcon(tr(":/icons/1uparrow.png")), tr("Move up"));
 
     connect(newDownloadAction,SIGNAL(triggered()),this,SLOT(addDownload()));
+    //connect(removeDownloadAction,SIGNAL(triggered()),this,SLOT());
 }
 
 MainWindow::~MainWindow()

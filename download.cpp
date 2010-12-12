@@ -5,10 +5,12 @@ QList<Download*> Download::downloadList=QList<Download*>();
 
 Download::Download(QTreeWidget *parent) : QTreeWidgetItem(parent)
 {
-    downloadList.append(this);
+    downloadList.append(this);//TODO use an instance to manage download
     filepath="/home/cipher16/";
     filename="";
     url=QUrl("");
+    size=1;
+    range=0;
 }
 
 void Download::startDownload(){
@@ -34,7 +36,6 @@ void Download::startDownload(){
 
     connect(reply, SIGNAL(finished()), this, SLOT(save()));
     connect(reply, SIGNAL(readyRead()),this, SLOT(write()));
-    connect(reply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(updateProgress(qint64, qint64)));
 
     setText(0,filename);
     setText(1,"Downloading");
@@ -50,11 +51,13 @@ void Download::save(){
 
 void Download::write(){
     QNetworkReply *r = qobject_cast<QNetworkReply*>(QObject::sender());
+    size=r->header(QNetworkRequest::ContentLengthHeader).toInt();
     QFile file(filepath+filename);
     if(file.open(QIODevice::ReadWrite))
     {
         file.seek(file.size());
         file.write(r->read(r->bytesAvailable()));
+        range=file.size();//update size
         file.close();
     }
 }
@@ -79,13 +82,6 @@ bool Download::getFileMeta(){
     return true;
 }
 
-void Download::updateProgress(qint64 received, qint64 total){
-    if(size!=0&&size==range)
-        return; //finished
-    this->size=total;
-    this->range=received;
-}
-
-int Download::getSize() const{return size;}
-int Download::getRange() const{return range;}
-int Download::getProgress(){qDebug()<<"Appel a progress : "<<size<<" "<<range;return (range!=size ? ((range/size)*100) : 100);}
+float Download::getSize() const{return size;}
+float Download::getRange() const{return range;}
+int Download::getProgress(){return (range!=size ? ((range/size)*100) : 100);}
