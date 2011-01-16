@@ -45,6 +45,11 @@ void Download::stopDownload(){
     reply->abort();
 }
 
+void Download::removeDownload()
+{
+    this->deleteLater();
+}
+
 void Download::save(){
     setText(1,"Finished");
 }

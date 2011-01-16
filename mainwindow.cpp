@@ -121,7 +121,7 @@ MainWindow::MainWindow(QWidget *parent)
     //upActionTool = topBar->addAction(QIcon(tr(":/icons/1uparrow.png")), tr("Move up"));
 
     connect(newDownloadAction,SIGNAL(triggered()),this,SLOT(addDownload()));
-    //connect(removeDownloadAction,SIGNAL(triggered()),this,SLOT());
+    connect(removeDownloadAction,SIGNAL(triggered()),this,SLOT(removeDownload()));
 }
 
 MainWindow::~MainWindow()
@@ -140,6 +140,15 @@ void MainWindow::addDownload()
             d->setPath(ad.getFilePath());
         d->setFile(ad.getFileName());
         d->startDownload();
+    }
+}
+
+
+void MainWindow::removeDownload()
+{
+    foreach(QTreeWidgetItem* i, downloadView->selectedItems())
+    {
+        ((Download*)i)->removeDownload();
     }
 }
 

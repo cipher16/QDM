@@ -10,6 +10,7 @@ class MainWindow : public QMainWindow
     DownloadView *downloadView;
 private slots:
     void addDownload();
+    void removeDownload();
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();

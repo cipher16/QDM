@@ -15,6 +15,7 @@ class Download : public QObject,QTreeWidgetItem
     QUrl url;   //url to download
     QString filename;
     QString filepath;
+    //need to use float for some calculation
     float size;   //size of the file
     float range;  //range downloaded
     QNetworkAccessManager *nam;
@@ -29,6 +30,7 @@ public:
     Download(QTreeWidget *parent=0);
     void startDownload();
     void stopDownload();
+    void removeDownload();
     QNetworkReply * getReply();
 
     float getSize() const;
